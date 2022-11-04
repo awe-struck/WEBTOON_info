@@ -21,7 +21,7 @@ The CSV files were the English section's Version 1 and Version 22 files. Both of
 
 ## Data Extraction and Cleaning
 
-- Link to [Version 1 SQL Cleaning file](https://github.com/awe-struck/Video_Game_Sales_2016/blob/main/Data_Cleaning/vg_sales_clean.sql) and [Version 22 SQL Cleaning file]()
+- Link to [Version 1 SQL Cleaning file](https://github.com/awe-struck/WEBTOON_info/blob/main/Data_Cleaning/WebtoonV1_en.sql) and [Version 22 SQL Cleaning file](https://github.com/awe-struck/WEBTOON_info/blob/main/Data_Cleaning/WebtoonV22_en.sql)
 
 Pre-cleaned, the Version 1 and Version 22 CSV files contained 669 and 811 rows respectively. The files were then converted into a .xlss format and uploaded to Microsoft SSMS for cleanup and brief analysis. I proceeded to create a copy table to store this information and filter for the columns relevant to the analysis. 
 The dropped columns included daily_pass, synopsis and length. Originally, length column would have been considered relevant. Upon exploring the data and the website,  it was cleat that the data for
@@ -36,7 +36,7 @@ were removed as per the author's request.
 
 ## Data Exploration
 
-- Link to [Webtoon Info SQL file]( )
+- Link to [Webtoon Info SQL file](https://github.com/awe-struck/WEBTOON_info/blob/main/Data_Exploration)
 
 This section I briefly explored the clean data while I prepared the tables for Tableau. As a quick overview of the data, the romance genre is the top performer 
 in therms of views, subs, likes and ratings. However, this may be due to the genre having the second most titles on the platform. Upon drilling down into the data,
