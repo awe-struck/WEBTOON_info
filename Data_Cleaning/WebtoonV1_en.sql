@@ -11,12 +11,12 @@ Cleaning Data in SQL Queries
 
 SELECT
 	*
-FROM Webtoon.dbo.webtoon_originals_en_V1$
+FROM Webtoon.dbo.webtoon_originals_en_V1$;
 
 
-DROP TABLE IF EXISTS Webtoon.dbo.old_version
+DROP TABLE IF EXISTS Webtoon.dbo.old_version;
 CREATE TABLE Webtoon.dbo.old_version (
-	title_id FLOAT
+    title_id FLOAT PRIMARY KEY
    ,title NVARCHAR(255)
    ,genre NVARCHAR(255)
    ,authors NVARCHAR(255)
@@ -26,12 +26,12 @@ CREATE TABLE Webtoon.dbo.old_version (
    ,views FLOAT
    ,likes FLOAT
    ,status NVARCHAR(255)
-)
+);
 
 
 INSERT INTO Webtoon.dbo.old_version
 	SELECT
-		title_id
+	    title_id
 	   ,title
 	   ,genre
 	   ,authors
@@ -41,13 +41,13 @@ INSERT INTO Webtoon.dbo.old_version
 	   ,views
 	   ,likes
 	   ,status
-	FROM Webtoon.dbo.webtoon_originals_en_V1$
+	FROM Webtoon.dbo.webtoon_originals_en_V1$;
 
 
 SELECT
 	*
 FROM Webtoon.dbo.old_version
-ORDER BY title_id
+ORDER BY title_id;
 
 
 
@@ -59,7 +59,7 @@ ORDER BY title_id
 SELECT
 	*
 FROM Webtoon.dbo.old_version
-WHERE weekdays IS NULL
+WHERE weekdays IS NULL;
 
 
 
@@ -69,10 +69,10 @@ WHERE weekdays IS NULL
 -- Check each Column if data fields match set parameters (misspelling, extra blanks, etc.)
 
 SELECT
-	weekdays
+    weekdays
    ,LEN(weekdays) AS text_len
 FROM Webtoon.dbo.old_version
-GROUP BY weekdays
+GROUP BY weekdays;
 
 
 
@@ -84,51 +84,51 @@ GROUP BY weekdays
 
 SELECT DISTINCT
 	genre
-FROM Webtoon.dbo.old_version
+FROM Webtoon.dbo.old_version;
 
 
 SELECT
-	genre
+    genre
    ,(CASE
-		WHEN genre = 'SF' THEN 'SCI-FI'
-	END) chg_name
+	WHEN genre = 'SF' THEN 'SCI-FI'
+    END) chg_name
 FROM Webtoon.dbo.old_version
-WHERE genre = 'SF'
+WHERE genre = 'SF';
 
 
 UPDATE Webtoon.dbo.old_version
 SET genre =
 CASE
-	WHEN genre = 'SF' THEN 'SCI-FI'
+        WHEN genre = 'SF' THEN 'SCI-FI'
 END
-WHERE genre = 'SF'
+WHERE genre = 'SF';
 
 
 SELECT
-	genre
+    genre
    ,(CASE
-		WHEN genre = 'TIPTOON' THEN 'INFORMATIVE'
-	END) chg_name
+        WHEN genre = 'TIPTOON' THEN 'INFORMATIVE'
+     END) chg_name
 FROM Webtoon.dbo.old_version
-WHERE genre = 'TIPTOON'
+WHERE genre = 'TIPTOON';
 
 
 UPDATE Webtoon.dbo.old_version
 SET genre = (CASE
 	WHEN genre = 'TIPTOON' THEN 'INFORMATIVE'
 END)
-WHERE genre = 'TIPTOON'
+WHERE genre = 'TIPTOON';
 
 
 SELECT DISTINCT
 	genre
-FROM Webtoon.dbo.old_version
+FROM Webtoon.dbo.old_version;
 
 
 SELECT
 	*
 FROM Webtoon.dbo.old_version
-ORDER BY genre
+ORDER BY genre;
 
 
 
@@ -138,9 +138,9 @@ ORDER BY genre
 
 
 SELECT
-	MIN(likes) AS min_value
+    MIN(likes) AS min_value
    ,MAX(likes) AS max_value
-FROM Webtoon.dbo.old_version
+FROM Webtoon.dbo.old_version;
 
 
 -- Duplicate Checker and Remover
@@ -160,4 +160,4 @@ SELECT
 	*
 -- DELETE
 FROM cte
-WHERE row_cnt > 1
+WHERE row_cnt > 1;
