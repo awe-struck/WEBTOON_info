@@ -3,7 +3,7 @@
 -- Overall growth rate from Ver1 to Ver22
 
 SELECT
-	SUM(ci.views) views
+    SUM(ci.views) views
    ,SUM(ci.subscribers) subs
    ,SUM(ci.likes) likes
    ,SUM(ci.rating) rating
@@ -13,7 +13,7 @@ SELECT
    ,((SUM(ci.rating) / SUM(oi.rating)) - 1) * 100 ratings_growth
 FROM Webtoon.dbo.current_info ci
 FULL OUTER JOIN Webtoon.dbo.old_info oi
-	ON ci.title_id = oi.title_id
+	ON ci.title_id = oi.title_id;
 
 
 
@@ -22,54 +22,54 @@ FULL OUTER JOIN Webtoon.dbo.old_info oi
 
 -- KPIs of old info
 
-DROP TABLE IF EXISTS Webtoon.dbo.old_kpi
+DROP TABLE IF EXISTS Webtoon.dbo.old_kpi;
 CREATE TABLE Webtoon.dbo.old_kpi (
-	title_id FLOAT
+    title_id FLOAT PRIMARY KEY
    ,likes_to_views FLOAT
    ,subs_to_views FLOAT
-)
+);
 
 
 INSERT INTO Webtoon.dbo.old_kpi
 	SELECT
-		title_id
+	    title_id
 	   ,SUM(likes) / SUM(views) * 100 likes_to_views
 	   ,SUM(subscribers) / SUM(views) * 100 subs_to_views
 	FROM Webtoon.dbo.old_info
 	GROUP BY title_id
-	ORDER BY title_id
+	ORDER BY title_id;
 
 
 SELECT
 	*
 FROM Webtoon.dbo.old_kpi
-ORDER BY title_id
+ORDER BY title_id;
 
 
 -- KPIs of current info
 
-DROP TABLE IF EXISTS Webtoon.dbo.current_kpi
+DROP TABLE IF EXISTS Webtoon.dbo.current_kpi;
 CREATE TABLE Webtoon.dbo.current_kpi (
-	title_id FLOAT
+    title_id FLOAT PRIMARY KEY
    ,likes_to_views FLOAT
    ,subs_to_views FLOAT
-)
+);
 
 
 INSERT INTO Webtoon.dbo.current_kpi
 	SELECT
-		title_id
+	    title_id
 	   ,SUM(likes) / SUM(views) * 100 likes_to_views
 	   ,SUM(subscribers) / SUM(views) * 100 subs_to_views
 	FROM Webtoon.dbo.current_info
 	GROUP BY title_id
-	ORDER BY title_id
+	ORDER BY title_id;
 
 
 SELECT
 	*
 FROM Webtoon.dbo.current_kpi
-ORDER BY title_id
+ORDER BY title_id;
 
 
 SELECT
@@ -77,7 +77,7 @@ SELECT
 FROM Webtoon.dbo.old_kpi
 INNER JOIN Webtoon.dbo.old_info oi
 	ON Webtoon.dbo.old_kpi.title_id = oi.title_id
-ORDER BY oi.title_id
+ORDER BY oi.title_id;
 
 
 
@@ -86,7 +86,7 @@ ORDER BY oi.title_id
 
 -- Creating View for potential later usage. Store growth rate data for INDIVIDUAL titles
 
-DROP VIEW IF EXISTS growth_rates
+DROP VIEW IF EXISTS growth_rates;
 CREATE VIEW growth_rates
 AS
 
@@ -108,12 +108,12 @@ INNER JOIN Webtoon.dbo.current_kpi ck
 INNER JOIN Webtoon.dbo.old_info oi
 	ON ci.title_id = oi.title_id
 INNER JOIN Webtoon.dbo.old_kpi ok
-	ON ok.title_id = ck.title_id
+	ON ok.title_id = ck.title_id;
 
 
 SELECT
 	*
-FROM growth_rates gr
+FROM growth_rates gr;
 -- Noticed a couple of titles are missing from the V1 compared to V22 tables
 -- Both titles were from the same author Ann who's titles were removed per the author's wishes
 
@@ -123,7 +123,7 @@ SELECT
 FROM Webtoon.dbo.old_info oi
 LEFT JOIN Webtoon.dbo.current_info ci
 	ON oi.title_id = ci.title_id
-WHERE ci.title_id IS NULL
+WHERE ci.title_id IS NULL;
 
 
 
@@ -134,25 +134,25 @@ WHERE ci.title_id IS NULL
 -- Romance seems to be highest overall across all categories
 
 SELECT
-	genre
+    genre
    ,SUM(views) total_views
    ,SUM(subscribers) total_subs
    ,SUM(likes) total_likes
    ,AVG(rating) avg_rating
 FROM Webtoon.dbo.current_info
 GROUP BY genre
-ORDER BY total_views DESC
+ORDER BY total_views DESC;
 
 
 -- SUPERHERO was the only genre with an 8 score average rating
 -- Calculated median to see if data was skewed. Result showed that the median has more consistent values
 
 SELECT DISTINCT
-	genre
+    genre
    ,AVG(rating) OVER (PARTITION BY genre ORDER BY genre) avg_rating
    ,PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY rating) OVER (PARTITION BY genre) AS median
 FROM Webtoon.dbo.current_info ci
-ORDER BY median DESC
+ORDER BY median DESC;
 
 
 
@@ -161,7 +161,7 @@ ORDER BY median DESC
 -- Majority of titles are ROMANCE and the small sample size is skewing some of the average ratings
 
 SELECT
-	genre
+    genre
    ,COUNT(title) title_cnt
    ,FORMAT((CAST(COUNT(title) AS FLOAT)) / SUM(COUNT(*)) OVER (), 'p') titles_dist
    ,MIN(rating) min_rating
@@ -169,7 +169,7 @@ SELECT
    ,AVG(rating) avg_rating
 FROM Webtoon.dbo.current_info ci
 GROUP BY genre
-ORDER BY title_cnt DESC
+ORDER BY title_cnt DESC;
 
 
 
@@ -184,4 +184,4 @@ SELECT
    ,AVG(rating) avg_rating
 FROM Webtoon.dbo.current_info
 GROUP BY genre
-ORDER BY titles_dist DESC
+ORDER BY titles_dist DESC;
