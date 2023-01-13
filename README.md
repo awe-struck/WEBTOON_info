@@ -36,10 +36,16 @@ were removed as per the author's request.
 
 ## Data Exploration
 
-- Link to [Webtoon Info SQL file](https://github.com/awe-struck/WEBTOON_info/blob/main/Data_Exploration)
+- Link to [Webtoon Info SQL file](https://github.com/awe-struck/WEBTOON_info/blob/main/Data_Exploration.sql)
 
 This section I briefly explored the clean data while I prepared the tables for Tableau. As a quick overview of the data, the romance genre is the top performer 
 in therms of views, subs, likes and ratings. However, this may be due to the genre having the second most titles on the platform. Upon drilling down into the data,
 there is an uneven distribution in titles. So, consider adding more titles to other genres to see if their numbers increase. Also, could consider making more
 genre tags associated with a title. That is to say have a main genre tag along with mini sub-tags that displays other genres that could be associated with the series.
 This could help in bringing more attention to the series as it makes the title more reprensentative to the viewer. 
+
+<br />
+
+## Data Visualization
+
+_Refer to Tableau for Reporting Dashboard: https://public.tableau.com/app/profile/awestruck/viz/webt/WebtoonDashboard_
